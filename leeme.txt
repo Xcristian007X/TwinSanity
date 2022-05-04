@@ -5,3 +5,9 @@ abrir cmd en la carpeta actual y escribir nodemon app, esto abrira el servidor e
 npm i socket.io
 npm i express
 npm i nodemon -g (ideal que sea global)
+
+app.get('/', (req, res)=>{
+
+    res.sendFile(`${__dirname}/cliente/inicio.html`)
+
+})
