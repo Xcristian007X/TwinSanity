@@ -4,7 +4,7 @@ const app = express()
 
 const http = require('http')
 const server =  http.createServer(app)
-
+const htmlplugin = require('html-webpack-plugin')
 const publicPath = path.resolve(__dirname, 'cliente')
 
 app.use(express.static(publicPath))
@@ -20,13 +20,24 @@ io.on('connection', (Socket)=>{
     })
 })
 
-app.get('/', (req, res)=>{
+module.exports = {
 
-    res.sendFile(`${__dirname}/cliente/inicio.html`)
+    plugins: [
 
-})
+        new htmlplugin({
+            filename: "index.html",
+            template: '.src/cliente/index.html'
+        }),
+        new htmlplugin({
+            filename: "contacto.html",
+            template: '.src/cliente/contacto.html'
+        }),
+
+
+    ]
+
+}
 
 server.listen(3000, ()=> {
-
     console.log('Servidor corriendo en http://localhost:3000')
 })
