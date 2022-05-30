@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Register</title>
+    <link rel="stylesheet" href="css/login-register.css">
+</head>
+<body class="main">
+    <div>
+    <a href="/">Menu Principal</a> / <a href="login">Iniciar Sesion</a>
+        <form action="/register" method="POST">
+            <input type="text" name="user" id="user" placeholder="Usuario" required>
+            <input type="text" name="name" id="name" placeholder="Nombre" required>
+            <input type="text" name="rol" id="rol" placeholder="Rol" required>
+            <input type="password" name="pass" id="pass" placeholder="Contraseña" required>
+            <input type="submit" value="Registrarse">
+        </form>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <% if(typeof alert != "undefined"){ %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle%>',
+                text:'<%= alertMessage %>',
+                icon:'<%= alertIcon%>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+            }).then(()=>{
+                window.location='/<%= ruta %>'
+            })
+        </script>
+        <% } %>
+
+        
+</body>
+</html>

@@ -1,0 +1,50 @@
+body{
+	background: black;
+    color: rgb(150, 150, 150);
+    background-size: cover;
+    font-family: 'Cutive Mono', monospace;
+}
+
+.main input[type="text"], .main input[type="password"]{
+	display: block;
+	font-family: 'Cutive Mono', monospace;
+    background: transparent;
+    border: 1px solid #3557b6;
+    text-align: center;
+    padding: 10px;
+    margin: 15px;
+    width: 350px;
+    color: white;
+    outline: 0;
+}
+
+.main input[type="submit"] {
+    display: block;
+    font-family: 'Cutive Mono', monospace;
+    background: transparent;
+    border: 1px solid #3557b6;
+    padding: 10px;
+    margin: 15px;
+    width: 371px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    outline: 0;
+}
+
+.main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50.2%);
+    text-align: center;
+}
+
+.main a {
+    color: #3557b6;
+    text-decoration: none;
+}
+
+.main a:hover {
+    color: rgb(143, 0, 204);
+}
