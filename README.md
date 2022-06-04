@@ -1,24 +1,14 @@
-# Video-chat-v1
+# TwinSanity
+Proyecto del ramo Desarrollo de Aplicaciones Empresariales UCT 2022
 
-Video-chat-v1 is a video chat app that makes it easy to groups up with people you want to meet
+Instruccione:
 
-![IMG](./video-chat.png)
+1- clonar el repositorio
 
-Check out the live demo: https://video-chat-app-v1.herokuapp.com/
+2- con la consola dentro del proyecto escrbir npm install.
 
-An article I wrote which explains how I build this: https://bit.ly/3wh0gyR
+3- con npm run dev correra el programa.
 
-This app is build using NodeJS, Socket.io, and Peerjs(WebRTC)
+4- en la ruta http://127.0.0.1:3000/ correra el programa.
 
-## How to run the project?
-
-1. Clone this repository in your local system.
-2. Open the command prompt from your project directory and run the command `npm install`.
-3. Open the command prompt from your project directory and run the command `npm start`.
-4. Go to your browser and type `http://127.0.0.1:3030/` in the address bar.
-5. Hurray! That's it.
-
-### ToDo
-
-- [ ] - Recreate the Front-end with React.
-
+5- Parte de este repositorio (especificamente el video chat) pertenece a https://levelup.gitconnected.com/building-a-video-chat-app-with-node-js-socket-io-webrtc-26f46b213017.
