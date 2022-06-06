@@ -1,10 +1,32 @@
-
-//variables y requerimientos
 const express = require("express");
-const session = require('express-session');
+const bodyParser = require('body-parser')
 const app = express();
+
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+
 const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
+
+// Conexion a la Base de Datos
+const mongoose = require('mongoose')
+
+const user = 'Cristian_angulo';
+const password = 'vjVkBz9rl1lQExfB';
+const dbName = "foros";
+const uri = `mongodb+srv://${user}:${password}@twinsanity.2ovgpc1.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+mongoose.connect(uri,
+//mongoose.connect('mongodb://localhost:27017/foros',
+  {useNewUrlParser: true, useUnifiedTopology: true }
+)
+  .then(() => console.log('Base de datos conectada'))
+  .catch(e => console.log(e))
+
+
 const io = require("socket.io")(server, {
   cors: {
     origin: '*'
@@ -15,36 +37,13 @@ const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
 
-//Conexion base de datos
-const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo');
-
-const pass = 'HOUzT8lr8l8ywPQT';
-const MONGO_URL = `mongodb+srv://root:${pass}@twinsanity.2ovgpc1.mongodb.net/?retryWrites=true&w=majority`;
-/* const user = 'root';
-
-const uri = `mongodb+srv://root:${pass}@twinsanity.2ovgpc1.mongodb.net/?retryWrites=true&w=majority`;
-
-mongoose.connect(uri,
-  { useNewUrlParser: true, useUnifiedTopology: true}
-  )
-  .then(() => console.log('Base de datos conectada'))
-  .catch(e => console.log(e)) */
-
-// llamado de dependencias y direccionamiento en modulos
-
-app.use(session({
-  secret: 'Secret',
-  resave: true,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: MONGO_URL
-  })
-}))
-
 app.use("/peerjs", peerServer);
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
+
+
+
+
 app.use(express.static( __dirname + "/public"));
 
 
@@ -56,6 +55,7 @@ app.get("/room", (req, res) => {
   res.redirect(`/room/${uuidv4()}`);
 });
 
+
 app.use((req, res, next) => {
     res.status(404).render("404", {
         titulo: "404",
@@ -63,7 +63,6 @@ app.use((req, res, next) => {
     });
 });
 
-//Funciones para el servidor
 
 io.on("connection", (socket) => {
 
@@ -75,8 +74,8 @@ io.on("connection", (socket) => {
     });
   });
 
-socket.on("chat", (message, userName ) => {
-    io.emit("crearmsg", message, userName);
+  socket.on("chat", (msg) => {
+    io.emit("chat", msg);
   });
 
   
@@ -85,6 +84,6 @@ socket.on("chat", (message, userName ) => {
 
 });
 
-//puerto
+
 
 server.listen(process.env.PORT || 3000);
