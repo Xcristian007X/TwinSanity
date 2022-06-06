@@ -7,8 +7,7 @@ router.get("/", (req, res) => {
   })
   
 router.get("/prueba", (req, res) => {
-    req.session.cuenta = req.session.cuenta ? req.session.cuenta + 1 : 1;
-    res.send(`hola!: ${req.session.cuenta}`);
+    res.render("prueba");
     
 })
 
