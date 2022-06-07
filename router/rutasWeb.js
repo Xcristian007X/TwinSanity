@@ -79,7 +79,7 @@ router.get("/contact", (req, res) => {
 });
  
 router.get("/:room", (req, res) => {
-    res.render("room",{titulo : "Contactanos", roomId: req.params.room});
+    res.render("room",{titulo : "VideoChat", roomId: req.params.room});
 });
 
 
