@@ -26,6 +26,7 @@ const user = prompt("Enter your name");
 let text = document.querySelector("#chat_message");
 let send = document.getElementById("send");
 let messages = document.querySelector(".messages");
+let crearforo = document.getElementById("crearforo1")
 
 send.addEventListener("click", (e) => {
   if (text.value.length !== 0) {
@@ -51,4 +52,11 @@ socket.on("crearmsg", (message, userName) => {
         }</span> </b>
         <span>${message}</span>
     </div>`;
+});
+
+document.querySelector("#crearf").addEventListener("click", () => {
+  crearforo.classList.remove("crearforo");
+  document.querySelector("#crearf").classList.add("crearf_hide");
+  //var padre2= document.querySelector("#crearf").parentNode
+  //padre2.removeChild(document.querySelector("#crearf"))
 });

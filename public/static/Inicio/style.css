@@ -23,6 +23,14 @@
   background-color: var(--main-darklg);
 }
 
+.crearforo {
+  opacity: 0;
+}
+
+.crearf_hide {
+  opacity: 0;
+}
+
 .logo > h3 {
   color: var(--main-light);
 }
@@ -39,9 +47,26 @@
   flex-direction: column;
 }
 
+.Foro > h1 {
+  color: white;
+  font-weight: normal;
+  font-family: Arial;
+}
+
+.container > table,th,td {
+    border: 1px solid rgb(255, 255, 255);
+    color: #ffffff;
+} 
+  
+
+
+.container > h2 {
+  color: #ffffff;
+}
+
 .videos__group {
   flex-grow: 1;
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   padding: 1rem;

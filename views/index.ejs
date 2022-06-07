@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>videoChatApp</title>
-    <link rel="stylesheet" href="/inicio/style.css" />
+
+    <link rel="stylesheet" href="/static/inicio/style.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <link href="/css/bootstrap.min.css"  rel="stylesheet">
+
     <title> <%= titulo %>  </title>
 
   </head>
@@ -19,21 +20,115 @@
     <div class="main">  
     <div class="main__left">
       <div class="videos__group">
-        <div id="video-grid">
+        
 
+        
+      
+      <div class="Foro">
+          <H1> Foro de Consultas</H1>
+          <div class="container">
+            <table class="table">
+              <tbody>
+                <% if (arrayForos.length > 0) { %>
+                  
+                    <tr>
+                      <th scope="col">N° de Foro</th>
+                      <th scope="col">Titulo</th>
+                      <th scope="col">Autor</th>
+ 
+                    </tr>
+                  
+                  <% arrayForos.forEach(foro => { %>
+                    
+                    <tr>
+     
+                      <td scope="row">                 
+                        <a  href="/foro/<%=foro._id %>">
+                          <%= cantidad = cantidad + 1 %> 
+                        </a> 
+                      </th>
+                      <td><%=foro.titulo %> </td>
+                      <td><%=foro.autor %> </td> 
+                    </tr>
+                    <% }) %>
+                 <%} else { %>
+               
+                    <td align="center">Aun no creas tu primero foro, que esperas!.</td>
+               
+                  
+                <% } %>
+              </tbody>
+            </table>
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+            class="btn btn-primary"
+            type="submit"
+            id="crearf"
+          >
+            Crear un nuevo foro
+          </button>
+      </div>
+      <div class="crearforo" id="crearforo1">
+        <h3 align="center">Crear Foro</h3>
+        <form action="/" method="POST">
+          <div class="d-grid gap-2 col-6 mx-auto">
+
+          <input
+            type="text"
+            placeholder="Titulo del Foro..."
+            class="form-control my-2"
+            name="titulo"
+          >
+          <input
+           type="text"
+           placeholder="creador..."
+           class="form-control my-2"
+           name="autor"
+           <!--readonly--> 
+          
+          <!--<input
+          type="date"
+          placeholder="fecha..."
+          class="form-control my-2"
+          name="fecha"
+          value= "<%=Date.now() %> "
+         >--> 
+         
+  
+          <textarea
+            placeholder="Descripcion del Foro...."
+            class="form-control my-2"
+            rows="3"
+            name="descripcion"
+          ></textarea>
+        
+            <button
+              class="btn btn-primary"
+              type="submit"
+            >
+              Agregar foro
+            </button>
+        </div>
+        
+        </button>
+        </form>
+      </div>
+      </div>
+
+      
+    </div>
+    <div class="options">
+      <div class="options__left">
+        <div id="showChat" class="options__button">
+          <i class="fa fa-comment"></i>
         </div>
       </div>
-      <div class="options">
-        <div class="options__left">
-          <div id="showChat" class="options__button">
-            <i class="fa fa-comment"></i>
-          </div>
-        </div>
-        <div class="options__right">
-         
-        </div>
+      <div class="options__right">
+       
       </div>
     </div>
+     </div>
     <div class="main__right">
       <div class="main__chat_window">
           <div class="messages">
@@ -41,7 +136,7 @@
           </div>
       </div>
       <div class="main__message_container">
-        <input id="chat_message" type="text" autocomplete="off" placeholder="Type message here...">
+        <input id="chat_message" type="text" autocomplete="off" placeholder="Chat en vivo :D...">
         <div id="send" class="options__button">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </div>
@@ -49,6 +144,6 @@
     </div>
   </div>
   </body>
-  <script src="/inicio/script.js"></script>
+  <script src="/static/inicio/script.js"></script>
   <script src="/js/bootstrap.min.js"></script>
 </html>
