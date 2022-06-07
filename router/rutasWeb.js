@@ -5,7 +5,7 @@ const Foro = require('../models/foro')
 const Comentario = require('../models/comentario')
 
 
-router.get("/", async (req, res) => {
+router.get("/inicio", async (req, res) => {
     try{
         const arrayForosDB = await Foro.find();
         //console.log(arrayForosDB)
@@ -54,8 +54,8 @@ router.post('/', async(req, res) => {
     const body = req.body
     try {
         await Foro.create(body)
-
-        res.redirect('/')
+        
+        res.redirect('/inicio')
     } catch (error){
         console.log(error)
     }
@@ -66,7 +66,7 @@ router.get("/prueba", (req, res) => {
     res.render("prueba",{titulo : "Iniciar Sesion"});
 });
 
-router.get("/login", (req, res) => {
+router.get("/", (req, res) => {
     res.render("login",{titulo : "Iniciar Sesion"});
 });
   

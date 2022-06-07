@@ -46,12 +46,19 @@
   display: flex;
   flex-direction: column;
 }
+.Foro{
 
-.Foro > h1 {
+    height: 75vh !important;
+    overflow: auto;
+
+}
+
+.Foro > h1, h3 {
   color: white;
   font-weight: normal;
   font-family: Arial;
 }
+
 
 .container > table,th,td {
     border: 1px solid rgb(255, 255, 255);
