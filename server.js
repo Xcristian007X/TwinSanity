@@ -1,73 +1,46 @@
-//constantes y requerimientos
+// Requerimientos y Inicializaciones
 
 const express = require("express");
-const bodyParser = require('body-parser')
-const app = express();
-const server = require("http").Server(app);
+const session = require('express-session');
 const { v4: uuidv4 } = require("uuid");
-const io = require("socket.io")(server, {
-  cors: {
-    origin: '*'
-  }
-});
 const { ExpressPeerServer } = require("peer");
-const peerServer = ExpressPeerServer(server, {
-  debug: true,
-});
+const MongoStore = require('connect-mongo');
+const http = require("http");
+const app = express();
+const server = http.Server(app);
+const passport = require('passport');
+const flash = require("connect-flash");
+const methodOverride = require("method-override");
 
+const peerServer = ExpressPeerServer(server, { debug: true});
+const io = require("socket.io")(server, {cors: {origin: '*'}});
+require('./database');
+require('./config/passport');
 
+// Use-Set Applicacion
 
-
-// Conexion a la Base de Datos
-const mongoose = require('mongoose')
-
-const pass = 'HOUzT8lr8l8ywPQT';
-const dbName = "foros";
-const uri = `mongodb+srv://root:${pass}@twinsanity.2ovgpc1.mongodb.net/${dbName}?retryWrites=true&w=majority`;
-mongoose.connect(uri,
-  {useNewUrlParser: true, useUnifiedTopology: true }
-)
-  .then(() => console.log('Base de datos conectada'))
-  .catch(e => console.log(e))
-
-
-// llamado de dependencias
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
-app.use(bodyParser.json())
-
+app.use(express.urlencoded({extended:false}));
+app.use(methodOverride('_method'));
+app.use(session({
+  secret: 'mysecretapp',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 app.use("/peerjs", peerServer);
+app.use(express.static( __dirname + "/public"));
+app.use('/', require('./router/routes'));
+app.use('/', require('./router/users'));
+
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
 
-
-app.use(express.static( __dirname + "/public"));
-
-
-
-//rutas WEB
-app.use('/', require('./router/rutasWeb'));
-
-app.get("/room", (req, res) => {
-  res.redirect(`/room/${uuidv4()}`);
-});
-
-
-app.use((req, res, next) => {
-    res.status(404).render("404", {
-        titulo: "404",
-        descripccion: "TwinSanity"
-    });
-});
-
-
-//Funciones para el servidor
+//Server Socket.io Funciones
 
 io.on("connection", (socket) => {
-
   socket.on("join-room", (roomId, userId, userName) => {
     socket.join(roomId);
     socket.to(roomId).broadcast.emit("user-connected", userId);
@@ -75,17 +48,11 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("createMessage", message, userName);
     });
   });
-
-  socket.on("chat", (msg) => {
-    io.emit("chat", msg);
+  socket.on("chat", (message, userName ) => {
+    io.emit("crearmsg", message, userName);
   });
-
-  
-
-
-
 });
 
-
+//Inicializando server
 
 server.listen(process.env.PORT || 3000);
