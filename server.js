@@ -1,14 +1,59 @@
 const express = require("express");
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const app = express();
+require('./config/passport');
+const flash = require('connect-flash');
+const session = require('express-session');1
+const passport = require('passport');
+
+//Instancias del Login
+//const passport = require('passport');
+//const cookieParser = require('cookie-parser')
+//const session = require('express-session')
+//const PassportLocal = require('passport-local').Strategy;
+//app.use(express.urlencoded({extended: true}))
+//app.use(cookieParser('mi ultra hiper secreto'))
+
+//app.use(session({
+//  secret: 'mi ultra hiper secreto',
+//  resave: true,
+//  saveUninitialized: true
+//}));
+//
+//app.use(passport.initialize());
+//app.use(passport.session());
+
+//passport.use(new PassportLocal(function(username, password, done){
+//  if(username=== "codigo" && password === "1234")
+//    return (done(null,{id :1, name: "codi"});
+//  done(null, false);
+//}))
 
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
 app.use(bodyParser.json())
 
+//Login//////////////////////////////////////////
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}))
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+//Variables Globales, solo esta en uso error, hay que probar user//////
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null
+  next();
+})
+/////////////////////////////////////////////////
 const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
 
@@ -49,7 +94,8 @@ app.use(express.static( __dirname + "/public"));
 
 
 //rutas WEB
-app.use('/', require('./router/rutasWeb'));
+app.use(require('./router/rutasWeb'));
+//app.use(require('./router/rutasUsuario'));
 
 app.get("/room", (req, res) => {
   res.redirect(`/room/${uuidv4()}`);
@@ -78,12 +124,10 @@ io.on("connection", (socket) => {
     io.emit("chat", msg);
   });
 
-  
-
-
-
 });
 
 
 
 server.listen(process.env.PORT || 3000);
+
+module.exports = app;

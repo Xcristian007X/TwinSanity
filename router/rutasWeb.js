@@ -1,10 +1,24 @@
-const express = require('express');
-const router = express.Router();
+const { Router } =require('express')
+const router = Router();
+
 //modelo de base de datos
 const Foro = require('../models/foro')
 const Comentario = require('../models/comentario')
 
+//login, revisar ControlUser que es la funcionalidad///////////////////////////////////////////////////////////////////////////////
+const {renderSignUpForm, renderLoginForm, signup, login, logout} = require('../controllers/controlUsers')
 
+router.get("/signup", renderSignUpForm);
+
+router.post("/signup", signup);
+
+router.get("/login", renderLoginForm);
+
+router.post("/login", login);
+
+router.get("/logout", logout);
+
+/////////////////////////////////////////////////////////////////////////////////////
 router.get("/", async (req, res) => {
     try{
         const arrayForosDB = await Foro.find();
@@ -61,7 +75,14 @@ router.post('/', async(req, res) => {
    
 })
 
+//router.get("/login", (req, res) => {
 
+//    try{
+//        res.render("login",{titulo : "Iniciar Sesion"});
+//    } catch (error) {
+//        console.log(error)
+//    }
+//  })
 
 router.get("/prueba", (req, res) => {
     res.render("prueba");
@@ -75,17 +96,10 @@ router.get("/contact", (req, res) => {
     res.render("contact",{titulo : "Contactanos"});
 })
  
+
 router.get("/:room", (req, res) => {
     res.render("room",{titulo : "Contactanos", roomId: req.params.room})
 })
 
-router.get("/login", (req, res) => {
-
-    try{
-        res.render("login",{titulo : "Iniciar Sesion"});
-    } catch (error) {
-        console.log(error)
-    }
-  })
-
 module.exports = router;
+
