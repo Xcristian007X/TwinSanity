@@ -21,12 +21,22 @@ router.get("/logout", logout);
 /////////////////////////////////////////////////////////////////////////////////////
 router.get("/", async (req, res) => {
     try{
+        const error = "";
+        const success = "";
+        //Verifica si el usuario esta logeado o no////////////////////////////////////
+        if(!res.locals.user) {
+            res.status(401);
+            res.render('login', {
+                error: 'Se necesita haber iniciado sesion para ver el contenido'
+            })
+            res.end('no autorizado');
+        } else {
         const arrayForosDB = await Foro.find();
         //console.log(arrayForosDB)
         res.render("index", {
             titulo : "TwinSanity",
             arrayForos: arrayForosDB,
-        })
+        })}
     } catch (error) {
         console.log(error)
     }
@@ -36,13 +46,23 @@ router.get("/", async (req, res) => {
 
       const id = req.params.id
       try{
+        const error = "";
+        const success = "";
+        if(!res.locals.user) {
+            res.status(401);
+            res.render('login', {
+                success,
+                error: 'Se necesita haber iniciado sesion para ver el contenido'
+            })
+            res.end('no autorizado');
+        } else {
         const ForosDB = await Foro.findOne({_id: id})
         const arrayComentarioDB = await Comentario.find({id2: id});
         res.render('detalle', {
             comentario: arrayComentarioDB,
             foro: ForosDB,
             error: false,
-        })
+        })}
       } catch (error){
           res.render('detalle', {
             error: true,
