@@ -48,7 +48,7 @@ usersCtrl.signup = async (req, res) => {
                 errors,
             })
         } else {
-            const newuser= new User({name, email, password})
+            const newuser= new User({name, username, email, password})
             newuser.password = await newuser.encryptPassword(password);
             await newuser.save();
             const success_msg = "¡El usuario se a creado exitosamente!"

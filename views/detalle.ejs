@@ -11,7 +11,9 @@
     <link href="/css/bootstrap.min.css"  rel="stylesheet">
 
     <title> TwinSanity Detalles  </title>
-
+    <script>
+      const user = "<%= user %>";
+    </script>
   </head>
   <body>
     <header></header>
@@ -30,7 +32,7 @@
                   </tbody>
                 </table>
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <a href="/" class="btn btn-primary"> Volver al inicio</a>
+                    <a href="/inicio" class="btn btn-primary"> Volver al inicio</a>
                 </div>
             <%} else { %>
                 <table class="table">
@@ -51,7 +53,17 @@
                           </tr>
                     </tbody>  
                 </table>
-    
+                <% if (user == foro.autor) { %>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <form action="/foro/<%=foro._id %>/delete?_method=DELETE" method="POST">
+                    <button class="btn btn-danger" type="submit" id="eliminar">
+                    Eliminar Foro
+                    </button>
+                    <input type="hidden" name="_method" value="DELETE">
+                  
+                  </form>
+                </div>
+                <% } %>
                 <h2>Comentarios: </h2>
                 <br>
                 <% if (comentario.length > 0) { %>
@@ -70,7 +82,22 @@
                                 <td><%=comentario.comentario %> </td>
                             </tr>
                         </tbody>
+                      </table>
+                        <% if (user == comentario.autor) { %>
+                          <div class="d-grid gap-2 col-6 mx-auto">
+                            <form action="/foro/<%=foro._id %>/comentario/<%=comentario._id %>/delete?_method=DELETE" method="POST">
+                              <button class="btn btn-danger" type="submit" id="eliminar">
+                              Eliminar Comentario
+                              </button>
+                              <input type="hidden" name="_method" value="DELETE">
+                            
+                            </form>
+                          </div>
+                        
+                          <% } else { %>
+                          <% }  %>
                         <% }) %>
+                        
                     <%} else { %>
                         <table class="table">
                             <tbody>
@@ -78,7 +105,7 @@
                             </tbody>
                         </table>
                     <% } %>
-                </table>
+                    <br>
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button
                         class="btn btn-primary"
@@ -98,9 +125,11 @@
                        placeholder="creador..."
                        class="form-control my-2"
                        name="autor"
-                       <!--readonly--> 
+                       value= <%=user %>
+                       readonly> 
                       
                        <input
+                       style="display: none;"
                        type="text"
                        placeholder="Foro"
                        class="form-control my-2"

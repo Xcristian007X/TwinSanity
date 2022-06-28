@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require("uuid");
 const flash = require('connect-flash');
 const session = require('express-session');1
 const passport = require('passport');
+const methodOverride = require('method-override')
 const io = require("socket.io")(server, {
   cors: {
     origin: '*'
@@ -37,6 +38,7 @@ mongoose.connect(uri,
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 // parse application/json
 app.use(bodyParser.json())
 
@@ -47,7 +49,6 @@ app.set('views', __dirname + '/views');
 
 
 app.use(express.static( __dirname + "/public"));
-
 
 //Login//////////////////////////////////////////
 app.use(session({
@@ -68,20 +69,18 @@ app.use((req, res, next) => {
   next();
 })
 
-
 //rutas WEB
 app.use('/', require('./router/rutasWeb'));
-
 
 app.get("/room", (req, res) => {
   res.redirect(`/room/${uuidv4()}`);
 });
 
-
 app.use((req, res, next) => {
     res.status(404).render("404", {
         titulo: "404",
-        descripccion: "TwinSanity"
+        descripccion: "TwinSanity",
+        user: "404"
     });
 });
 
@@ -101,13 +100,6 @@ io.on("connection", (socket) => {
   socket.on("chat", (msg, user) => {
     io.emit("crearmsg", msg, user);
   });
-
-  
-
-
-
 });
-
-
 
 server.listen(process.env.PORT || 3000);

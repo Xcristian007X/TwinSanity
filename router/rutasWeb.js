@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
+const mongoose = require('mongoose')
+const User= require('../models/user')
+const passport= require('../config/passport')
 //modelo de base de datos
 const Foro = require('../models/foro')
 const Comentario = require('../models/comentario')
@@ -36,7 +38,7 @@ router.get("/inicio", async (req, res) => {
         res.render("index", {
             titulo : "TwinSanity",
             arrayForos: arrayForosDB,
-            username: res.locals.user
+            user: res.locals.user.username
         })}
     } catch (error) {
         console.log(error)
@@ -44,7 +46,6 @@ router.get("/inicio", async (req, res) => {
   })
 
   router.get("/foro/:id", async (req,res) => {
-
       const id = req.params.id
       try{
         const error = "";
@@ -63,10 +64,12 @@ router.get("/inicio", async (req, res) => {
             comentario: arrayComentarioDB,
             foro: ForosDB,
             error: false,
+            user: res.locals.user.username
         })}
       } catch (error){
           res.render('detalle', {
             error: true,
+            user: res.locals.user.username,
             mensaje: 'No se encuentra el foro'
         })
       }
@@ -84,11 +87,31 @@ router.post("/foro/:id", async(req, res) => {
    
 })
 
+router.delete('/foro/:id/delete', async(req, res) => {
+    const id = req.params.id
+    try {
+        await Foro.findByIdAndDelete(id)
+        res.redirect('/inicio')
+    } catch (error){
+        console.log(error)
+    }
+})
+
+router.delete('/foro/:id/comentario/:id2/delete', async(req, res) => {
+    const id = req.params.id
+    const id2= req.params.id2
+    try {
+        await Comentario.findByIdAndDelete(id2)
+        res.redirect("/foro/"+id)
+    } catch (error){
+        console.log(error)
+    }
+})
+
 router.post('/inicio', async(req, res) => {
     const body = req.body
     try {
         await Foro.create(body)
-
         res.redirect('/inicio')
     } catch (error){
         console.log(error)
@@ -105,17 +128,19 @@ router.get("/prueba", (req, res) => {
 //Extras
 
 router.get("/about", (req, res) => {
-    res.render("about",{titulo : "Quienes Somos"});
+    res.render("about",{titulo : "Quienes Somos", user: res.locals.user.username});
 });
   
-router.get("/contact", (req, res) => {
-    res.render("contact",{titulo : "Contactanos"});
-});
- 
+
+
 //VideoChat
 
 router.get("/:room", (req, res) => {
-    res.render("room",{titulo : "VideoChat", roomId: req.params.room});
+    res.render("room",{
+        titulo : "VideoChat",
+        roomId: req.params.room,
+        user: res.locals.user.username
+    });
 });
 
 

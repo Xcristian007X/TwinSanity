@@ -22,7 +22,6 @@ showChat.addEventListener("click", () => {
 
 
 
-const user = prompt("Enter your name");
 
 let text = document.querySelector("#chat_message");
 let send = document.getElementById("send");

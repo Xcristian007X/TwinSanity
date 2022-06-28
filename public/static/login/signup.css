@@ -1,0 +1,44 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  
+  }
+  body {
+  
+  background-color: #161d29;
+  min-height: 100%;
+  min-width: 100%;
+  
+  }
+  
+  h1 {
+  
+  font-family: 'Georgia';
+  font-style: italic;
+  font-size: 30px; 
+  text-align: center;
+  }
+  
+  #contenido{
+
+    margin-top:10%;
+    font-size: 20px;
+    font-family: lucida console
+    
+    
+  }
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
