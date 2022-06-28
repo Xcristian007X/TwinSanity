@@ -53,7 +53,17 @@
                           </tr>
                     </tbody>  
                 </table>
-    
+                <% if (user == foro.autor) { %>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <form action="/foro/<%=foro._id %>/delete?_method=DELETE" method="POST">
+                    <button class="btn btn-danger" type="submit" id="eliminar">
+                    Eliminar Foro
+                    </button>
+                    <input type="hidden" name="_method" value="DELETE">
+                  
+                  </form>
+                </div>
+                <% } %>
                 <h2>Comentarios: </h2>
                 <br>
                 <% if (comentario.length > 0) { %>

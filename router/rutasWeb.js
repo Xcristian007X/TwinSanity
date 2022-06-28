@@ -46,7 +46,6 @@ router.get("/inicio", async (req, res) => {
   })
 
   router.get("/foro/:id", async (req,res) => {
-
       const id = req.params.id
       try{
         const error = "";
@@ -88,6 +87,16 @@ router.post("/foro/:id", async(req, res) => {
    
 })
 
+router.delete('/foro/:id/delete', async(req, res) => {
+    const id = req.params.id
+    try {
+        await Foro.findByIdAndDelete(id)
+        res.redirect('/inicio')
+    } catch (error){
+        console.log(error)
+    }
+   
+})
 router.post('/inicio', async(req, res) => {
     const body = req.body
     try {

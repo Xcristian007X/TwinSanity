@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require("uuid");
 const flash = require('connect-flash');
 const session = require('express-session');1
 const passport = require('passport');
+const methodOverride = require('method-override')
 const io = require("socket.io")(server, {
   cors: {
     origin: '*'
@@ -17,6 +18,8 @@ const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
+
+
 
 // Conexion a la Base de Datos
 const mongoose = require('mongoose')
@@ -35,6 +38,7 @@ mongoose.connect(uri,
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 // parse application/json
 app.use(bodyParser.json())
 
@@ -45,6 +49,7 @@ app.set('views', __dirname + '/views');
 
 
 app.use(express.static( __dirname + "/public"));
+
 
 //Login//////////////////////////////////////////
 app.use(session({
@@ -81,6 +86,7 @@ app.use((req, res, next) => {
     });
 });
 
+
 //Funciones para el servidor
 
 io.on("connection", (socket) => {
@@ -96,6 +102,13 @@ io.on("connection", (socket) => {
   socket.on("chat", (msg, user) => {
     io.emit("crearmsg", msg, user);
   });
+
+  
+
+
+
 });
+
+
 
 server.listen(process.env.PORT || 3000);
