@@ -19,7 +19,6 @@ showChat.addEventListener("click", () => {
   document.querySelector(".header__back").style.display = "block";
 });
 
-const user = prompt("Enter your name");
 
 var peer = new Peer(undefined, {
   path: "/peerjs",
@@ -77,6 +76,9 @@ let messages = document.querySelector(".messages");
 send.addEventListener("click", (e) => {
   if (text.value.length !== 0) {
     socket.emit("message", text.value);
+    //Para probar si funciona el nombre de usuario :3
+    console.log(user);
+    ///////////////////////////
     text.value = "";
   }
 });

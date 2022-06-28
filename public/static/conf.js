@@ -1,11 +1,6 @@
 const socket = io("/");
 
 
-
-
-
-const user = prompt("Enter your name");
-
 var peer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
@@ -31,6 +26,7 @@ let crearforo = document.getElementById("crearforo1")
 send.addEventListener("click", (e) => {
   if (text.value.length !== 0) {
     socket.emit("message", text.value);
+    console.log(user);
     text.value = "";
   }
 });

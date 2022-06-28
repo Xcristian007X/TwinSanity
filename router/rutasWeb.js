@@ -1,6 +1,8 @@
-const { Router } =require('express')
-const router = Router();
-
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose')
+const User= require('../models/user')
+const passport= require('../config/passport')
 //modelo de base de datos
 const Foro = require('../models/foro')
 const Comentario = require('../models/comentario')
@@ -12,14 +14,14 @@ router.get("/signup", renderSignUpForm);
 
 router.post("/signup", signup);
 
-router.get("/login", renderLoginForm);
+router.get("/", renderLoginForm);
 
-router.post("/login", login);
+router.post("/", login);
 
 router.get("/logout", logout);
 
 /////////////////////////////////////////////////////////////////////////////////////
-router.get("/", async (req, res) => {
+router.get("/inicio", async (req, res) => {
     try{
         const error = "";
         const success = "";
@@ -36,6 +38,7 @@ router.get("/", async (req, res) => {
         res.render("index", {
             titulo : "TwinSanity",
             arrayForos: arrayForosDB,
+            user: res.locals.user.username
         })}
     } catch (error) {
         console.log(error)
@@ -62,10 +65,12 @@ router.get("/", async (req, res) => {
             comentario: arrayComentarioDB,
             foro: ForosDB,
             error: false,
+            user: res.locals.user.username
         })}
       } catch (error){
           res.render('detalle', {
             error: true,
+            user: res.locals.user.username,
             mensaje: 'No se encuentra el foro'
         })
       }
@@ -83,43 +88,43 @@ router.post("/foro/:id", async(req, res) => {
    
 })
 
-router.post('/', async(req, res) => {
+router.post('/inicio', async(req, res) => {
     const body = req.body
     try {
         await Foro.create(body)
-
-        res.redirect('/')
+        res.redirect('/inicio')
     } catch (error){
         console.log(error)
     }
    
 })
 
-//router.get("/login", (req, res) => {
-
-//    try{
-//        res.render("login",{titulo : "Iniciar Sesion"});
-//    } catch (error) {
-//        console.log(error)
-//    }
-//  })
-
+//Archivo pruebas tecnicas
 router.get("/prueba", (req, res) => {
-    res.render("prueba");
-})
-  
+    res.render("prueba",{titulo : "Iniciar Sesion"});
+});
+
+
+//Extras
+
 router.get("/about", (req, res) => {
     res.render("about",{titulo : "Quienes Somos"});
-})
+});
   
 router.get("/contact", (req, res) => {
     res.render("contact",{titulo : "Contactanos"});
-})
+});
  
+//VideoChat
 
 router.get("/:room", (req, res) => {
-    res.render("room",{titulo : "Contactanos", roomId: req.params.room})
-})
+    res.render("room",{
+        titulo : "VideoChat",
+        roomId: req.params.room,
+        user: res.locals.user.username
+    });
+});
+
+
 
 module.exports = router;
-

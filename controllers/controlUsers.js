@@ -48,7 +48,7 @@ usersCtrl.signup = async (req, res) => {
                 errors,
             })
         } else {
-            const newuser= new User({name, email, password})
+            const newuser= new User({name, username, email, password})
             newuser.password = await newuser.encryptPassword(password);
             await newuser.save();
             const success_msg = "¡El usuario se a creado exitosamente!"
@@ -65,8 +65,8 @@ usersCtrl.renderLoginForm = (req,res) => {
 };
 
 usersCtrl.login = passport.authenticate('local', {
-    failureRedirect: '/login',
-    successRedirect: '/',
+    failureRedirect: '/',
+    successRedirect: '/inicio',
     failureFlash: true
 });
 
@@ -74,7 +74,7 @@ usersCtrl.logout = (req, res) =>{
     req.logout(req.user, err => {
         if(err) return next(err);
         req.flash('success_msg','Se ha cerrado la session');
-        res.redirect('/login');
+        res.redirect('/');
       });
 };
 
