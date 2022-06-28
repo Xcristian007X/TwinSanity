@@ -15,7 +15,9 @@
   <title>
     <%= titulo %>
   </title>
-
+  <script>
+    const user = "<%= user %>";
+  </script>
 </head>
 
 <body>
@@ -80,7 +82,9 @@
                 <div class="d-grid gap-2 col-6 mx-auto">
 
                   <input type="text" placeholder="Titulo del Foro..." class="form-control my-2" name="titulo">
-                  <input type="text" placeholder="creador..." class="form-control my-2" name="autor" <!--readonly-->
+                  <input type="text" placeholder="creador..." class="form-control my-2" name="autor" value= <%=user %>
+                  
+                  <!--readonly-->
 
                   <!--<input
           type="date"

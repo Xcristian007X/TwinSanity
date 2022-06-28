@@ -12,5 +12,3 @@ Instruccione:
 4- en la ruta http://127.0.0.1:3000/ correra el programa.
 
 5- Parte de este repositorio (especificamente el video chat) pertenece a https://levelup.gitconnected.com/building-a-video-chat-app-with-node-js-socket-io-webrtc-26f46b213017.
-
-6- El programa corre en https://twin-sanity.herokuapp.com

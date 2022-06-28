@@ -68,7 +68,6 @@ app.use((req, res, next) => {
   next();
 })
 
-
 //rutas WEB
 app.use('/', require('./router/rutasWeb'));
 

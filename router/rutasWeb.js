@@ -36,7 +36,7 @@ router.get("/inicio", async (req, res) => {
         res.render("index", {
             titulo : "TwinSanity",
             arrayForos: arrayForosDB,
-            username: res.locals.user
+            user: res.locals.user.username
         })}
     } catch (error) {
         console.log(error)
@@ -63,10 +63,12 @@ router.get("/inicio", async (req, res) => {
             comentario: arrayComentarioDB,
             foro: ForosDB,
             error: false,
+            user: res.locals.user.username
         })}
       } catch (error){
           res.render('detalle', {
             error: true,
+            user: res.locals.user.username,
             mensaje: 'No se encuentra el foro'
         })
       }
@@ -115,7 +117,7 @@ router.get("/contact", (req, res) => {
 //VideoChat
 
 router.get("/:room", (req, res) => {
-    res.render("room",{titulo : "VideoChat", roomId: req.params.room});
+    res.render("room",{titulo : "VideoChat", roomId: req.params.room, user: res.locals.user.username});
 });
 
 

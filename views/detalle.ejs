@@ -11,6 +11,9 @@
     <link href="/css/bootstrap.min.css"  rel="stylesheet">
 
     <title> TwinSanity Detalles  </title>
+    <script>
+      const user = "<%= user %>";
+    </script>
 
   </head>
   <body>
@@ -98,6 +101,7 @@
                        placeholder="creador..."
                        class="form-control my-2"
                        name="autor"
+                       value= <%=user %>
                        <!--readonly--> 
                       
                        <input
